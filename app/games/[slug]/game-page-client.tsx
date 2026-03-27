@@ -3,7 +3,8 @@
 import { useState } from "react"
 import { GameLayout } from "@/components/game-layout"
 import type { Game } from "@/lib/games"
-import { Timer } from "lucide-react"
+import { renderGameBySlug } from "@/components/games/registry"
+import type { GameResult } from "@/components/games/types"
 
 interface GamePageClientProps {
   game: Game
@@ -11,13 +12,18 @@ interface GamePageClientProps {
 }
 
 export function GamePageClient({ game, recommendedGames }: GamePageClientProps) {
-  const [score, setScore] = useState<string | undefined>("9.87 秒")
-  const [scoreMessage, setScoreMessage] = useState<string | undefined>(
-    "惜しい！あと 0.13 秒！"
-  )
+  const [score, setScore] = useState<string | undefined>(undefined)
+  const [scoreMessage, setScoreMessage] = useState<string | undefined>(undefined)
+  const [gameInstanceKey, setGameInstanceKey] = useState(0)
+
+  const handleResult = (result: GameResult) => {
+    setScore(result.score)
+    setScoreMessage(result.message)
+  }
 
   const handlePlayAgain = () => {
-    // Play again logic will be implemented later
+    // Force remount to reset internal game state.
+    setGameInstanceKey((prev) => prev + 1)
     setScore(undefined)
     setScoreMessage(undefined)
   }
@@ -30,11 +36,8 @@ export function GamePageClient({ game, recommendedGames }: GamePageClientProps) 
       scoreMessage={scoreMessage}
       onPlayAgain={handlePlayAgain}
     >
-      {/* Game Area Placeholder */}
-      <div className="flex flex-col items-center justify-center gap-4 text-muted-foreground">
-        <Timer className="h-16 w-16" />
-        <span className="text-lg font-medium">ゲームエリア</span>
-        <span className="text-sm">ここにゲームが表示されます</span>
+      <div key={gameInstanceKey} className="w-full">
+        {renderGameBySlug(game, { onResult: handleResult })}
       </div>
     </GameLayout>
   )
