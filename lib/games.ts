@@ -2,7 +2,8 @@ export interface Game {
   title: string
   slug: string
   description: string
-  image: string
+  /** `public/games/` 配下のファイルを `/games/ファイル名` で指定。未設定・404時はプレースホルダ表示 */
+  image?: string
 }
 
 export const games: Game[] = [
