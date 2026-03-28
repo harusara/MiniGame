@@ -3,8 +3,9 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
-import { Gamepad2 } from "lucide-react"
+import { Gamepad2, Monitor, Smartphone } from "lucide-react"
 import type { Game } from "@/lib/games"
+import { Badge } from "@/components/ui/badge"
 
 interface GameCardProps {
   game: Game
@@ -38,6 +39,27 @@ export function GameCard({ game }: GameCardProps) {
           <h3 className="font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">
             {game.title}
           </h3>
+          <div
+            className="mt-2 flex flex-wrap items-center gap-1.5"
+            aria-label="推奨デバイス"
+          >
+            <Badge
+              variant="outline"
+              className="border-border/60 bg-muted/40 px-2 py-0.5 text-[11px] font-medium text-muted-foreground shadow-none"
+            >
+              <Monitor className="size-3 opacity-80" aria-hidden />
+              PC
+            </Badge>
+            {game.playableOnMobile ? (
+              <Badge
+                variant="outline"
+                className="border-border/60 bg-muted/40 px-2 py-0.5 text-[11px] font-medium text-muted-foreground shadow-none"
+              >
+                <Smartphone className="size-3 opacity-80" aria-hidden />
+                スマホ
+              </Badge>
+            ) : null}
+          </div>
           <p className="mt-2 line-clamp-1 text-sm text-muted-foreground">
             {game.description}
           </p>

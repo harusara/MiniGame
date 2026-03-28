@@ -5,10 +5,10 @@ import type { GameComponentProps } from "@/components/games/types"
 
 type ReactionState = "idle" | "waiting" | "ready" | "result"
 
-function getEvaluation(ms: number): string {
-  if (ms <= 180) return "プロ級"
-  if (ms <= 280) return "早い"
-  return "普通"
+function getEvaluationMessage(ms: number): string {
+  if (ms <= 180) return "評価: 達人"
+  if (ms <= 280) return "評価: 早い。でも、まだ上を目指せる！"
+  return "評価: 普通"
 }
 
 export function ReactionTest({ onResult }: GameComponentProps) {
@@ -66,7 +66,7 @@ export function ReactionTest({ onResult }: GameComponentProps) {
       setState("result")
       onResult({
         score: `${ms} ms`,
-        message: `評価: ${getEvaluation(ms)}`,
+        message: getEvaluationMessage(ms),
       })
     }
   }

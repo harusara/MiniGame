@@ -19,6 +19,7 @@ export function MemoryGame({ onResult }: GameComponentProps) {
   const [answer, setAnswer] = useState<string>("")
   const [lastCorrect, setLastCorrect] = useState<boolean | null>(null)
   const timeoutRef = useRef<number | null>(null)
+  const nextLevelRef = useRef<() => void>(() => {})
 
   const startRound = (nextDigits?: number) => {
     const d = Math.min(8, Math.max(3, nextDigits ?? digits))
@@ -67,9 +68,23 @@ export function MemoryGame({ onResult }: GameComponentProps) {
     startRound(next)
   }
 
+  nextLevelRef.current = nextLevel
+
   const retrySame = () => {
     startRound(digits)
   }
+
+  useEffect(() => {
+    if (phase !== "result" || !lastCorrect || digits >= 8) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault()
+        nextLevelRef.current()
+      }
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [phase, lastCorrect, digits])
 
   const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -145,9 +160,13 @@ export function MemoryGame({ onResult }: GameComponentProps) {
                 type="button"
                 onClick={nextLevel}
                 className="h-12 flex-1 rounded-xl bg-primary text-lg font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
-                disabled={digits >= 8}
+                disabled={!lastCorrect || digits >= 8}
               >
-                {digits >= 8 ? "最大桁に到達" : "次のレベルへ（+1桁）"}
+                {digits >= 8
+                  ? "最大桁に到達"
+                  : !lastCorrect
+                    ? "次のレベルへ（正解が必要）"
+                    : "次のレベルへ（+1桁）"}
               </button>
             </div>
           </div>

@@ -7,7 +7,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Mini Games',
+  title: 'harusara Games',
   description: '楽しいミニゲームコレクション',
   generator: 'v0.app',
   icons: {

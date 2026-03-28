@@ -14,7 +14,7 @@ export default function HomePage() {
             </div>
           </div>
           <h1 className="text-5xl font-bold text-foreground">
-            Mini Games
+            harusara Games
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             シンプルで楽しいミニゲームを遊ぼう

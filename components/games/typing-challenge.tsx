@@ -67,6 +67,16 @@ function matchesTarget(target: string, rawInput: string): boolean {
   return t === v
 }
 
+function getTypingRankComment(count: number): string {
+  if (count >= 27) return "評価: 神速タイピング！達人級！"
+  if (count >= 21) return "評価: プロ級のスピード！"
+  if (count >= 15) return "評価: タイピング上手！"
+  if (count >= 10) return "評価: いいリズム！伸びしろ十分！"
+  if (count >= 5) return "評価: なかなかのペース！"
+  if (count >= 1) return "評価: ここからさらに加速！"
+  return "評価: 次は流れに乗ってタイプしよう！"
+}
+
 export function TypingChallenge({ onResult }: GameComponentProps) {
   const [phase, setPhase] = useState<Phase>("idle")
   const [timeLeftMs, setTimeLeftMs] = useState(TIME_LIMIT_SEC * 1000)
@@ -86,9 +96,10 @@ export function TypingChallenge({ onResult }: GameComponentProps) {
   const finishGame = useCallback(
     (finalCount: number) => {
       setPhase("finished")
+      const rank = getTypingRankComment(finalCount)
       onResult({
         score: `${finalCount} 問正解`,
-        message: `30秒で ${finalCount} 問正解しました`,
+        message: `30秒で ${finalCount} 問正解しました。${rank}`,
       })
     },
     [onResult]
@@ -208,6 +219,7 @@ export function TypingChallenge({ onResult }: GameComponentProps) {
         <div className="flex flex-col items-center gap-3 text-center">
           <p className="text-sm text-muted-foreground">タイムアップ</p>
           <p className="text-4xl font-bold text-primary sm:text-5xl">{correctCount} 問正解</p>
+          <p className="text-base font-semibold text-foreground">{getTypingRankComment(correctCount)}</p>
           <p className="text-base text-muted-foreground">もう一度は下の「もう一度プレイ」から</p>
         </div>
       )}
