@@ -36,7 +36,7 @@ export function GamePageClient({ game, recommendedGames }: GamePageClientProps) 
       scoreMessage={scoreMessage}
       onPlayAgain={handlePlayAgain}
     >
-      <div key={gameInstanceKey} className="w-full">
+      <div key={gameInstanceKey} className="h-full w-full">
         {renderGameBySlug(game, { onResult: handleResult })}
       </div>
     </GameLayout>

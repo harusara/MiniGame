@@ -82,7 +82,7 @@ export function ReactionTest({ onResult }: GameComponentProps) {
     <button
       type="button"
       onClick={handleAreaClick}
-      className={`flex h-full min-h-80 w-full flex-col items-center justify-center rounded-2xl px-6 py-10 text-center transition-colors ${areaStyle}`}
+      className={`flex h-full w-full flex-col items-center justify-center rounded-2xl px-6 py-6 text-center transition-colors ${areaStyle}`}
     >
       {state === "idle" && (
         <>

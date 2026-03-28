@@ -65,8 +65,8 @@ export function TenSecondChallenge({ onResult }: GameComponentProps) {
   const isRunning = gameState === "running"
 
   return (
-    <div className="w-full px-4 py-8 sm:px-8">
-      <div className="mx-auto max-w-2xl rounded-2xl border border-border/70 bg-background/70 p-6 shadow-sm">
+    <div className="flex h-full w-full items-center justify-center px-4 py-2 sm:px-6">
+      <div className="mx-auto w-full max-w-2xl rounded-2xl border border-border/70 bg-background/70 p-5 shadow-sm sm:p-6">
         <p className="mb-3 text-center text-sm text-muted-foreground">経過時間</p>
         <p className="text-center font-mono text-5xl font-bold text-primary sm:text-7xl">
           {formatSeconds(elapsedMs)}s

@@ -25,54 +25,58 @@ export function GameLayout({
   onPlayAgain
 }: GameLayoutProps) {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-12">
-        {/* Back Button */}
-        <Link href="/">
-          <Button variant="ghost" className="mb-8 gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/40">
-            <ArrowLeft className="h-4 w-4" />
-            戻る
-          </Button>
-        </Link>
+    <div className="bg-background">
+      <section className="h-screen">
+        <div className="mx-auto flex h-full max-w-7xl flex-col px-4 py-4 sm:py-5">
+          {/* Back Button */}
+          <Link href="/">
+            <Button variant="ghost" className="mb-2 gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/40">
+              <ArrowLeft className="h-4 w-4" />
+              戻る
+            </Button>
+          </Link>
 
-        {/* Game Title */}
-        <h1 className="mb-8 text-center text-4xl font-bold text-foreground">
-          {game.title}
-        </h1>
+          {/* Game Area */}
+          <div className="flex flex-1 flex-col justify-center gap-4 overflow-hidden">
+            <h1 className="text-center text-3xl font-bold text-foreground sm:text-4xl">
+              {game.title}
+            </h1>
 
-        {/* Game Container */}
-        <div className="w-full mx-auto aspect-video bg-secondary flex items-center justify-center rounded-2xl border border-border/50 shadow-sm hover:shadow-md transition-shadow">
-          {children}
-        </div>
-
-        {/* Score Section */}
-        {score && (
-          <div className="mt-10 text-center">
-            <div className="text-5xl font-bold text-primary">
-              {score}
+            <div className="mx-auto flex h-full max-h-[55vh] w-full max-w-5xl items-center justify-center rounded-2xl border border-border/50 bg-secondary shadow-sm">
+              {children}
             </div>
-            {scoreMessage && (
-              <p className="mt-3 text-base text-muted-foreground">
-                {scoreMessage}
-              </p>
+
+            {/* Score Section */}
+            {score && (
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary sm:text-4xl">
+                  {score}
+                </div>
+                {scoreMessage && (
+                  <p className="mt-1 text-sm text-muted-foreground sm:text-base">
+                    {scoreMessage}
+                  </p>
+                )}
+              </div>
             )}
+
+            {/* Action Buttons */}
+            <div className="flex flex-col justify-center gap-3 sm:flex-row">
+              <Button
+                className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={onPlayAgain}
+              >
+                <RotateCcw className="h-4 w-4" />
+                もう一度プレイ
+              </Button>
+              <ShareButton gameTitle={game.title} score={score} />
+            </div>
           </div>
-        )}
-
-        {/* Action Buttons */}
-        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-          <Button 
-            className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
-            onClick={onPlayAgain}
-          >
-            <RotateCcw className="h-4 w-4" />
-            もう一度プレイ
-          </Button>
-          <ShareButton gameTitle={game.title} score={score} />
         </div>
+      </section>
 
-        {/* Recommended Games */}
-        <section className="mt-16">
+      {/* Recommended Games */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 pt-8">
           <h2 className="mb-8 text-2xl font-bold text-foreground">
             おすすめのゲーム
           </h2>
@@ -81,8 +85,7 @@ export function GameLayout({
               <GameCard key={recGame.slug} game={recGame} />
             ))}
           </div>
-        </section>
-      </div>
+      </section>
     </div>
   )
 }
